@@ -1,0 +1,11 @@
+version: "0.1"
+services:
+  postgres:
+    build: ./postgres/
+    hostname: 'postgres'
+    ports:
+     - 5432:5432
+  python:
+    build: ./python_app/
+    depends_on:
+     - postgres
