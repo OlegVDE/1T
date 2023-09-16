@@ -1,11 +1,18 @@
-version: "0.1"
+version: "0.2"
 services:
-  postgres:
-    build: ./postgres/
-    hostname: 'postgres'
+  db:
+    image: postgres:14.9-alpine3.18
+    environment:
+      POSTGRES_DB: "testdb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:      
+      - "/my-data2:/var/lib/postgresql/data"
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-     - 5432:5432
-  python:
-    build: ./python_app/
-    depends_on:
-     - postgres
+      - "5432:5432"
+
+
+volumes:
+  my-data2:
