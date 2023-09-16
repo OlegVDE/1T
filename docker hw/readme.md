@@ -9,5 +9,4 @@ user_name = postgres
 password = postgres  
 
 
-# скрипт называем init.sql и ложим рядом с Dockerfile в папку postgres
-# скрипт pythona  ложим в папку python_app
+# скрипт называем init.sql и ложим в папку postgres
