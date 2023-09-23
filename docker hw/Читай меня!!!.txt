@@ -1,0 +1,33 @@
+Для того, чтобы запустить контейнер необходимо сделать несколько шагов:
+1. открыть терминал командной строки и перейти в папку с файлом 'Dockerfile'
+2. в терминале запустить команду: 
+
+docker build . -t test_postgres:latest
+
+3. там же в терминале запустить еще одну команду:
+
+docker run -d --name test_postgres -p 5432:5432 test_postgres:latest
+
+эта команда поднимет контейнер с именем test_postgres и мы сможем обратиться к базе через порт 5432
+данные для подключения к базе:
+
+POSTGRES_DB=testdb
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+
+для изменения доступа к базе можно запустить контейнер добавив флаг: -e и прописать нужные параметры доступа к базе например:
+
+docker run -d -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=db_name --name test_postgres -p 5432:5432 test_postgres:latest
+
+4. Если мы хотим, чтобы данные не пропадали после остановки контейнера, то надо прописать подключение volume к контейнеру, 
+это можно сделать при помощи флага -v пример:
+
+docker run -d --name test_postgres -p 5432:5432 -v /data:/var/lib/postgresql/data test_postgres:latest
+
+5. Для подключения к контейнеру можно использовать следующую команду:
+
+docker exec -it test_postgres psql -U postgres
+
+6. Если мы хотим, чтобы контейнер удалялся после остановки, то можно добавить флаг: -rm при запуске, например:
+
+docker run --rm -d --name test_postgres -p 5432:5432 -v /data:/var/lib/postgresql/data test_postgres:latest
